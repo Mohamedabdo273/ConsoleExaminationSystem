@@ -25,7 +25,7 @@ Console.WriteLine("1. Add Question\n2. Edit Question\n3. Remove Question\n4. Sho
                     switch (choice)
                     {
                         case "1":
-                            Console.WriteLine("Enter the number of question");
+                            Console.WriteLine("Enter the number of questions :");
                             int number = int.Parse(Console.ReadLine());
                             exam.AddQuestion(number);
                             break;
@@ -34,10 +34,11 @@ Console.WriteLine("1. Add Question\n2. Edit Question\n3. Remove Question\n4. Sho
                             Console.WriteLine("Enter the question number you want to edit:");
                             int index2 = int.Parse(Console.ReadLine()) - 1;
                             Console.WriteLine("Enter the new question text:");
-                            string question2 = Console.ReadLine();
-                            Console.WriteLine("Enter the new correct answer:");
-                            string answer2 = Console.ReadLine();
-                            exam.EditQuestion(index2, question2, answer2);
+                            string updatedQuestionText = Console.ReadLine();
+                            if (exam.EditQuestion(index2, updatedQuestionText))
+                                Console.WriteLine("Edition done");
+                            else
+                                Console.WriteLine("Not found");
                             break;
                         case "3":
                             exam.DisplayQuestions();

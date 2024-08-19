@@ -26,3 +26,4 @@ C:\c#\ConsoleApp4\obj\Debug\net8.0\refint\ConsoleApp4.dll
 C:\c#\ConsoleApp4\obj\Debug\net8.0\ConsoleApp4.pdb
 C:\c#\ConsoleApp4\obj\Debug\net8.0\ConsoleApp4.genruntimeconfig.cache
 C:\c#\ConsoleApp4\obj\Debug\net8.0\ref\ConsoleApp4.dll
+C:\c#\ConsoleApp4\obj\Debug\net8.0\ConsoleApp4.sourcelink.json
