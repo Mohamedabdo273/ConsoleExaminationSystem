@@ -10,7 +10,7 @@ namespace ConsoleApp4
     {
         public string CorrectAnswer { get; set; }
 
-        public TrueFalseQuestion(string text, string correctAnswer)
+        public TrueFalseQuestion(string text="none", string correctAnswer = "none")
             : base(text)
         {
             CorrectAnswer = correctAnswer;
@@ -19,6 +19,10 @@ namespace ConsoleApp4
         public override bool IsCorrect(string answer)
         {
             return answer.Equals(CorrectAnswer.ToString());
+        }
+        public override string ToString()
+        {
+            return "(True/False):\n";
         }
     }
 

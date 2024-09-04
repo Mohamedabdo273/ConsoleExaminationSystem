@@ -53,7 +53,7 @@ public class Exam
             options.Add(option);
         }
         Console.WriteLine("Enter the number of the correct option:");
-        int correctOptionIndex = int.Parse(Console.ReadLine()) - 1;
+        int correctOptionIndex = int.Parse(Console.ReadLine());
 
         questions.Add(new MultipleChoiceQuestion(questionText, options, correctOptionIndex));
         
@@ -63,42 +63,46 @@ public class Exam
     {
         questions.Add(new TrueFalseQuestion(questionText, correctAnswer));
     }
-
+    
     public bool EditQuestion(int index,string updatedQuestionText)
     {
         int found = 0;
         if (index >= 0 && index < questions.Count)
         {
             found = 1;
-            if (questions[index] is MultipleChoiceQuestion multipleChoiceQuestion)
+            switch (questions[index])
             {
-                multipleChoiceQuestion.DisplayOptions();
-                Console.WriteLine("Enter the number of options:");
-                int numberOfOptions = int.Parse(Console.ReadLine());
-                List<string> options = new List<string>();
-                for (int i = 0; i < numberOfOptions; i++)
-                {
-                    Console.WriteLine($"Enter option {i + 1}:");
-                    string option = Console.ReadLine();
-                    options.Add(option);
-                }
-                Console.WriteLine("Enter the number of the correct option:");
-                int correctOptionIndex = int.Parse(Console.ReadLine()) - 1;
+                case MultipleChoiceQuestion multipleChoiceQuestion:
+                    {
+                        multipleChoiceQuestion.DisplayOptions();
+                        Console.WriteLine("Enter the number of options:");
+                        int numberOfOptions = int.Parse(Console.ReadLine());
+                        List<string> options = new List<string>();
+                        for (int i = 0; i < numberOfOptions; i++)
+                        {
+                            Console.WriteLine($"Enter option {i + 1}:");
+                            string option = Console.ReadLine();
+                            options.Add(option);
+                        }
+                        Console.WriteLine("Enter the number of the correct option:");
+                        int correctOptionIndex = int.Parse(Console.ReadLine());
 
-                questions[index] = new MultipleChoiceQuestion(updatedQuestionText, options, correctOptionIndex);
+                        questions[index] = new MultipleChoiceQuestion(updatedQuestionText, options, correctOptionIndex);
 
-            }
-            else if (questions[index] is TrueFalseQuestion)
-            {
-                
-                Console.WriteLine("Enter the new correct answer (True/False):");
-                string updatedCorrectAnswer = Console.ReadLine().ToLower();
+                        break;
+                    }
+                case TrueFalseQuestion:
+                    {
+                        Console.WriteLine("Enter the new correct answer (True/False):");
+                        string updatedCorrectAnswer = Console.ReadLine().ToLower();
 
-                questions[index] = new TrueFalseQuestion(updatedQuestionText, updatedCorrectAnswer);
-            }
-            else
-            {
-                return false;
+                        questions[index] = new TrueFalseQuestion(updatedQuestionText, updatedCorrectAnswer);
+                        break;
+                    }
+                default:
+                        Console.WriteLine("Not Found:\n");
+                        break;
+                    
             }
             return true;
         }
@@ -126,21 +130,29 @@ public class Exam
         }
 
         int score = 0;
-        
-        foreach (var question in questions)
+        int questionNumber = 1;
+        foreach (Question question in questions)
         {
-            
-            Console.WriteLine(question.Text);
+            Console.WriteLine($"Question {questionNumber}: {question.Text}");
+            questionNumber++;
 
-            if (question is MultipleChoiceQuestion multipleChoiceQuestion) 
+            switch (question)
             {
-                multipleChoiceQuestion.DisplayOptions();
-            }
-            else
-                Console.WriteLine("(True/False):\n");
+                case MultipleChoiceQuestion multipleChoiceQuestion:
+                    multipleChoiceQuestion.DisplayOptions();
+                    break;
 
-            Console.WriteLine("Your answer:\n");
-            string answer = Console.ReadLine();
+                case TrueFalseQuestion:
+                    Console.WriteLine("(True/False):\n");
+                    break;
+
+                default:
+                    Console.WriteLine("Unknown question type.");
+                    break;
+            }
+
+            Console.WriteLine("Your answer:");
+            string answer = Console.ReadLine();          
             if (question.IsCorrect(answer))
             {
                 score++;
@@ -149,6 +161,7 @@ public class Exam
 
         return score;
     }
+
 
     public void DisplayQuestions()
     {
